@@ -5,7 +5,7 @@ from sqlalchemy import Column, Integer, String, JSON, ForeignKey, Date, Computed
 class Booking(Base):
     __tablename__ = 'bookings'
 
-    id = Column(Integer, primary_key=True, nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     room_id = Column(ForeignKey('rooms.id'))
     user_id = Column(ForeignKey('users.id'))
     date_from = Column(Date, nullable=False)

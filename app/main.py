@@ -2,11 +2,13 @@ import uvicorn
 from fastapi import FastAPI, Query
 from typing import Optional
 from app.booking.routes import router as router_booking
+from app.users.routes import router as router_user_register
 
 from pydantic import BaseModel
 
 app = FastAPI()
 
+app.include_router(router_user_register)
 app.include_router(router_booking)
 
 
