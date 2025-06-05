@@ -18,6 +18,10 @@ class Settings(BaseSettings):
             f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         )
         return self
+
+    SECRET_KEY: str
+    ALGORITHM: str
+
     class Config:
         env_file = '.env'
 
