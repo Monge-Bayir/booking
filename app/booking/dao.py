@@ -3,7 +3,8 @@ from app.booking.models import Booking
 from app.database import async_session_maker
 from app.hotels.models import Room
 import datetime
-from sqlalchemy import select, and_, or_, func, insert
+from fastapi import HTTPException
+from sqlalchemy import select, and_, or_, func, insert, delete
 
 class BookingDao(BaseDao):
     model = Booking
@@ -56,3 +57,20 @@ class BookingDao(BaseDao):
 
             else:
                 return None
+
+    @classmethod
+    async def delete_booking(cls, booking_id: int, user_id: int):
+        async with async_session_maker() as session:
+            query = select(cls.model).where(cls.model.id == booking_id)
+            result = await session.execute(query)
+            booking = result.scalar_one_or_none()
+
+            if not booking:
+                raise HTTPException(status_code=404, detail="Бронирование не найдено")
+
+            if booking.user_id != user_id:
+                raise HTTPException(status_code=403, detail="Удаление чужого бронирования запрещено")
+
+            delete_query = delete(cls.model).where(cls.model.id == booking_id)
+            await session.execute(delete_query)
+            await session.commit()
