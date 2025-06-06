@@ -3,6 +3,8 @@ from fastapi import FastAPI, Query
 from typing import Optional
 from app.booking.routes import router as router_booking
 from app.users.routes import router as router_user_register
+from app.hotels.routes import router as router_hotel
+from app.rooms.routes import router as router_room
 
 from pydantic import BaseModel
 
@@ -10,21 +12,10 @@ app = FastAPI()
 
 app.include_router(router_user_register)
 app.include_router(router_booking)
+app.include_router(router_hotel)
+app.include_router(router_room)
 
 
-@app.get('/hotels/{hotels_id}')
-def get_hotels(hotels_id: int, date_to: str, date_from: str, stars: Optional[int] = Query(None, ge=1, le=5), has_spa: Optional[bool]=None):
-    return hotels_id
-
-class BookingSchema(BaseModel):
-    room_id: int
-    date_to: str
-    date_from: str
-
-
-@app.post('/booking')
-def add_booking(booking: BookingSchema):
-    pass
 
 
 if __name__ == '__main__':
