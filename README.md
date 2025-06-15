@@ -50,7 +50,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 ```
 ### 3. Собрать и запустить контейнеры
 ```
-docker-compose up --build
+docker compose up --build
 ```
 Приложение будет доступно по адресу: http://localhost:8000
 ### 4. Применить миграции
